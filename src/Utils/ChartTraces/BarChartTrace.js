@@ -1,16 +1,19 @@
 import getDynamicProperties from "../getDynamicProperties";
 
-const barChart = getDynamicProperties(
-  "stats",
-  "twitter",
-  "timelineStats",
-  "timeline",
-  "sentimentAsCategories",
-);
-const inn = barChart.then((data) => data.map((item) => item.negativeTweets));
-console.log(inn);
+const barChart = async () => {
+  const info = await getDynamicProperties(
+    "stats",
+    "twitter",
+    "timelineStats",
+    "timeline",
+    "sentimentAsCategories",
+  );
+  return info;
+};
+console.log(barChart())
+
 const xValue = ["Negative Tweets", "Positive Tweets", "Neutral Tweets"];
-const yValue = barChart.then((data) => data.map((item) => item.negativeTweets)); //for negative tweets
+const yValue = [12, 43, 33]; //for negative tweets
 const yValue2 = [24, 16, 20]; //for positive tweets
 const yValue3 = [12, 14, 23]; //for neutral tweets
 export const trace1 = {
