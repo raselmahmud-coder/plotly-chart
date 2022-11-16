@@ -1,8 +1,7 @@
-import getUseFetchData from "../hooks/getUseFetchData";
+import getUseFetchData from "./getUseFetchData";
 
 const getDynamicProperties = async (value) => {
   const data = await getUseFetchData();
-
   /*   // console.log(value.join("[]"), "info");
   // [stats][twitter][timelineStats][timeline]
   console.log(data["stats"]["twitter"]["timelineStats"]["timeline"], "value"); */
