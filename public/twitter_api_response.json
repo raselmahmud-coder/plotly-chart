@@ -329,7 +329,7 @@
             "total": 61,
             "currentTimeStamp": "2022-10-10T16:37:11Z",
             "sentimentAsCategories": {
-              "positiveTweets": 0,
+              "positiveTweets": 2,
               "neutralTweets": 47,
               "negativeTweets": 30,
               "positiveExternalTweets": 0,
@@ -9659,7 +9659,7 @@
             "total": 38,
             "currentTimeStamp": "2022-10-10T16:37:11Z",
             "sentimentAsCategories": {
-              "positiveTweets": 0,
+              "positiveTweets": 3,
               "neutralTweets": 23,
               "negativeTweets": 18,
               "positiveExternalTweets": 0,
