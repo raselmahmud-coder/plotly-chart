@@ -28,7 +28,7 @@ const BarChart = () => {
     });
   }, [twitterFetchData]);
 
-  const style = { width: "50%", height: "100%" };
+  const style = { width: "100%", height: "100%" };
   const layout = { title: "Twitter Segment" };
   const config = {
     responsive: true,
@@ -52,7 +52,6 @@ const BarChart = () => {
   const yValue1 = tweets.negative;
   const yValue2 = tweets.positive;
   const yValue3 = tweets.neutral;
-  console.log(yValue1.length, "yValue");
   /* ============= other options =========== */
   const options1 = {
     type: "bar",
@@ -93,14 +92,7 @@ const BarChart = () => {
       },
     },
   };
-  console.log(
-    "twitterFetchData",
-    getTraceAll({
-      xValue,
-      yValue: yValue1,
-      options: options1,
-    }),
-  );
+
   return (
     <>
       <AnyChart
