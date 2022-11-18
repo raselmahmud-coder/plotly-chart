@@ -1,10 +1,19 @@
 import React from "react";
+import useGetData from "../../hooks/useGetData";
 import { getTraceAll } from "../../Utils/ChartTraces/getTraceAll";
 import AnyChart from "../AnyCharts/AnyChart";
 
 const LineCharts = () => {
+  const { tweets } = useGetData(
+    ["stats", "twitter", "timelineStats", "timeline"],
+    {
+      meanSentiment: "meanSentiment",
+      date: "date",
+    },
+  );
+  // console.log(tweets.date, "tweets");
   const layout = {
-    title: "Line and Scatter Plot",
+    title: "Twitter Mean Sentiment",
   };
   const style = { width: "100%", height: "100%" };
   const config = {
@@ -32,8 +41,8 @@ const LineCharts = () => {
         config={config}
         data={[
           getTraceAll({
-            xValue: [1, 2, 3],
-            yValue: [12, 9, 15],
+            xValue: tweets.date,
+            yValue: tweets.meanSentiment,
             options: options1,
           }),
         ]}
