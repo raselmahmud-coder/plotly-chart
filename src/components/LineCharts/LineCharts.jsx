@@ -14,7 +14,7 @@ const LineCharts = ({ segmentValues, fetchType }) => {
   const traceOptions = {
     type: "scatter",
     mode: "lines+markers",
-    text: meanSentiment.map(String),
+    // text: meanSentiment?.map(String),
     textposition: "auto",
     name: `Mean Sentiment ${fetchType.toUpperCase()}`,
     marker: {
