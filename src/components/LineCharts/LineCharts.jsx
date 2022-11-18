@@ -1,30 +1,22 @@
 import React from "react";
-import useGetData from "../../hooks/useGetData";
-import { getTraceAll } from "../../Utils/ChartTraces/getTraceAll";
+import { getTrace } from "../../Utils/ChartTraces/getTrace";
 import AnyChart from "../AnyCharts/AnyChart";
 
-const LineCharts = () => {
-  const { tweets } = useGetData(
-    ["stats", "twitter", "timelineStats", "timeline"],
-    {
-      meanSentiment: "meanSentiment",
-      date: "date",
-    },
-  );
-  // console.log(tweets.date, "tweets");
+const LineCharts = ({ segmentValues, fetchType }) => {
+  const { date, meanSentiment } = segmentValues || {};
   const layout = {
-    title: "Twitter Mean Sentiment",
+    title: `${fetchType.toUpperCase()} Mean Sentiment`,
   };
-  const style = { width: "100%", height: "100%" };
+  const style = { width: "100%", height: "100%" }; //if you want to change the size of the chart
   const config = {
     responsive: true,
   };
-  const options1 = {
+  const traceOptions = {
     type: "scatter",
     mode: "lines+markers",
-    // text: yValue1?.map(String),
+    text: meanSentiment.map(String),
     textposition: "auto",
-    name: "Negative Tweets",
+    name: `Mean Sentiment ${fetchType.toUpperCase()}`,
     marker: {
       color: "rgb(158,202,225)",
       line: {
@@ -40,10 +32,10 @@ const LineCharts = () => {
         layout={layout}
         config={config}
         data={[
-          getTraceAll({
-            xValue: tweets.date,
-            yValue: tweets.meanSentiment,
-            options: options1,
+          getTrace({
+            xValue: date,
+            yValue: meanSentiment,
+            options: traceOptions,
           }),
         ]}
       />

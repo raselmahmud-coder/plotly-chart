@@ -1,57 +1,57 @@
 import { useEffect, useState } from "react";
-import getDynamicProperties from "../Utils/getDynamicProperties";
+import getDynamicProperties from "../Utils/ChartTraces/getDynamicProperties";
 
-const useGetData = (allData = [], items = {}) => {
-  const {
-    sentimentAsCategories,
-    negativeTweets,
-    neutralTweets,
-    positiveTweets,
-    meanSentiment,
-    date,
-  } = items || {};
+const useGetData = (fetchType = null) => {
   const [twitterFetchData, setTwitterFetchData] = useState([]);
-  const [tweets, setTweets] = useState({
+  const [segmentValues, setSegmentValues] = useState({
     negative: [],
     neutral: [],
     positive: [],
     meanSentiment: 0,
     date: "",
   });
+  const isTwitter = fetchType === "twitter" ? true : false;
   useEffect(() => {
     const barChart = async () => {
-      const data = await getDynamicProperties(allData);
+      const data = await getDynamicProperties(
+        [
+          "stats",
+          isTwitter ? "twitter" : "facebook",
+          "timelineStats",
+          "timeline",
+        ],
+        isTwitter ? "twitter" : "facebook",
+      );
       setTwitterFetchData(data);
     };
     barChart();
-  }, [allData]);
+  }, [isTwitter]);
   useEffect(() => {
-    setTweets((tw) => ({
+    setSegmentValues((tw) => ({
       ...tw,
-      negative:
-        negativeTweets &&
-        twitterFetchData.map(
-          (item) => item[sentimentAsCategories][negativeTweets],
-        ),
-      neutral:
-        neutralTweets &&
-        twitterFetchData.map(
-          (item) => item[sentimentAsCategories][neutralTweets],
-        ),
-      positive:
-        positiveTweets &&
-        twitterFetchData.map(
-          (item) => item[sentimentAsCategories][positiveTweets],
-        ),
-      meanSentiment:
-        meanSentiment && twitterFetchData.map((item) => item[meanSentiment]),
-      date: date && twitterFetchData.map((item) => item[date]),
+      negative: twitterFetchData.map(
+        (item) =>
+          item["sentimentAsCategories"][
+            isTwitter ? "negativeTweets" : "negativeComments"
+          ],
+      ),
+      neutral: twitterFetchData.map(
+        (item) =>
+          item["sentimentAsCategories"][
+            isTwitter ? "neutralTweets" : "neutralComments"
+          ],
+      ),
+      positive: twitterFetchData.map(
+        (item) =>
+          item["sentimentAsCategories"][
+            isTwitter ? "positiveTweets" : "positiveComments"
+          ],
+      ),
+      meanSentiment: twitterFetchData.map((item) => item["meanSentiment"]),
+      date: twitterFetchData.map((item) => item["date"]),
     }));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    twitterFetchData,
-  ]);
-  return { tweets };
+  }, [isTwitter, twitterFetchData]);
+  return { segmentValues };
 };
 
 export default useGetData;

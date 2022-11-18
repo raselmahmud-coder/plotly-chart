@@ -1,35 +1,20 @@
 import React from "react";
 import AnyChart from "../AnyCharts/AnyChart";
-import { getTraceAll } from "../../Utils/ChartTraces/getTraceAll";
-import useGetData from "../../hooks/useGetData";
+import { getTrace } from "../../Utils/ChartTraces/getTrace";
 
-const BarChart = () => {
-  const {tweets} = useGetData(
-    ["stats", "twitter", "timelineStats", "timeline"],
-    {
-      sentimentAsCategories: "sentimentAsCategories",
-      negativeTweets: "negativeTweets",
-      neutralTweets: "neutralTweets",
-      positiveTweets: "positiveTweets",
-      date:"date"
-    },
-  );
-  const style = { width: "100%", height: "100%" };
-  const layout = { title: "Twitter Segment" };
+const BarChart = ({ segmentValues, fetchType }) => {
+  const { date, negative, positive, neutral } = segmentValues || {};
+  const style = { width: "100%", height: "100%" };//if you want to change the size of the chart
+  const layout = { title: `${fetchType.toUpperCase()} Segment` };
   const config = {
     responsive: true,
   };
-  // console.log(tweets, "tweets");
-  const xValue = tweets.date; // should be date set up
-  const yValue1 = tweets.negative;
-  const yValue2 = tweets.positive;
-  const yValue3 = tweets.neutral;
   /* ============= other options =========== */
-  const options1 = {
+  const traceOptions1 = {
     textposition: "auto",
     type: "bar",
-    text: yValue1?.map(String),
-    name: "Negative Tweets",
+    text: negative.map(String),
+    name: `Negative ${fetchType === "twitter" ? "Tweets" : "Comments"}`,
     marker: {
       color: "rgb(158,202,225)",
       line: {
@@ -38,11 +23,11 @@ const BarChart = () => {
       },
     },
   };
-  const options2 = {
+  const traceOptions2 = {
     type: "bar",
     textposition: "auto",
-    text: yValue2?.map(String),
-    name: "Positive Tweets",
+    text: positive.map(String),
+    name: `Positive ${fetchType === "twitter" ? "Tweets" : "Comments"}`,
     marker: {
       color: "rgba(58,200,225,.5)",
       line: {
@@ -51,11 +36,11 @@ const BarChart = () => {
       },
     },
   };
-  const options3 = {
+  const traceOptions3 = {
     type: "bar",
     textposition: "auto",
-    text: yValue3?.map(String),
-    name: "Neutral Tweets",
+    text: neutral.map(String),
+    name: `Neutral ${fetchType === "twitter" ? "Tweets" : "Comments"}`,
     marker: {
       color: "rgba(178,250,225,.5)",
       line: {
@@ -72,20 +57,20 @@ const BarChart = () => {
         layout={layout}
         config={config}
         data={[
-          getTraceAll({
-            xValue,
-            yValue: yValue1,
-            options: options1,
+          getTrace({
+            xValue: date,
+            yValue: negative,
+            options: traceOptions1,
           }),
-          getTraceAll({
-            xValue,
-            yValue: yValue2,
-            options: options2,
+          getTrace({
+            xValue: date,
+            yValue: positive,
+            options: traceOptions2,
           }),
-          getTraceAll({
-            xValue,
-            yValue: yValue3,
-            options: options3,
+          getTrace({
+            xValue: date,
+            yValue: neutral,
+            options: traceOptions3,
           }),
         ]}
       />
