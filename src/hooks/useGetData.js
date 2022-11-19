@@ -48,7 +48,7 @@ const useGetData = (fetchType = null) => {
           ],
       ),
       meanSentiment: twitterFetchData.map((item) => item["meanSentiment"]),
-      date: twitterFetchData.map((item) => item["date"]),
+      date: twitterFetchData.map((item) => new Date(item["date"]).toDateString()),
     }));
   }, [isTwitter, twitterFetchData]);
   return { segmentValues };

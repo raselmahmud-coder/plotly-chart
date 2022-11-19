@@ -11,7 +11,7 @@ function App() {
   };
   return (
     <>
-      <button onClick={handleChange} style={{margin:"2px auto" }}>Click Here</button>
+      <button onClick={handleChange} style={{cursor:"pointer", padding:"10px"}}>Click Here To Change</button>
       <div className="grid_container">
         <BarChart segmentValues={segmentValues} fetchType={fetchType} />
         <LineCharts segmentValues={segmentValues} fetchType={fetchType} />
